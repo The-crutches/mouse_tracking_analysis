@@ -13,8 +13,35 @@ pacman::p_load(tidyverse, mousetrap)
 
 ```{r}
 
+
+?list.files
+
+library(purrr)
+library(mousetrap)
+
+sub1 <- read_csv("data/subject-1.csv")
+sub2 <- read_csv("data/subject-23.csv")
+sub3 <- read_csv("data/subject-678.csv")
+sub4 <- read_csv("data/subject-47806.csv")
+sub5 <- read_csv("data/subject-54321.csv")
+
+sub1$ID <- 1
+sub2$ID <- 2
+sub3$ID <- 3
+sub4$ID <- 4
+sub5$ID <- 5
+
+sub1$response_instructions <- as.character(sub1$response_instructions)
+
+
+
+df <- bind_rows(sub1, sub2, sub3, sub4, sub5)
+
+
+write.csv(df, "data.csv")
+
 #FIRST PART 
-data <- read_csv("subject-3.csv")
+data <- read_csv("data.csv")
 
 data_mt <- mt_import_mousetrap(data)
 
@@ -22,12 +49,12 @@ data_mt <- mt_import_mousetrap(data)
 nt_data_mt1 <- mt_remap_symmetric(data_mt)
 
 #Putting color for trail_type
-colorplot <- mt_plot(nt_data_mt1, color = "trial_type")
+colorplot <- mt_plot(nt_data_mt1, color = "prime_congruency")
 
 #Making end position align 
 data_align <- mt_align(nt_data_mt1, align_end = TRUE)
 
-alaign_plot <- mt_plot(data_align, color = "trial_type")
+alaign_plot <- mt_plot(data_align, color = "prime_congruency")
 
 plot <- mt_plot(nt_data_mt1)
 
@@ -60,9 +87,13 @@ norm_plot
 time_xpos_exl
 
 #
-agrr_data <- mt_aggregate(normalize_data, use = "tn_trajectories", use2 = "trial_type")
+agrr_data <- mt_aggregate(normalize_data, use = "tn_trajectories", use2 = "prime_congruency")
 
-mt_plot_aggregate(normalize_data, use = "tn_trajectories", use2 = "trial_type")
+
+mt_plot_aggregate(normalize_data, use = "tn_trajectories", color  = "prime_congruency")
 
 ?mt_plot_aggregate
+
+# Measures
+mt_measures(normalize_data)
 ```
