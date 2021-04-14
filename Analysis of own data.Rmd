@@ -13,7 +13,7 @@ pacman::p_load(tidyverse, mousetrap)
 
 ```{r}
 
-#FIRST PART
+#FIRST PART 
 data <- read_csv("subject-3.csv")
 
 data_mt <- mt_import_mousetrap(data)
