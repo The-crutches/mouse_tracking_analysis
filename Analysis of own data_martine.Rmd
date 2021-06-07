@@ -1,0 +1,82 @@
+---
+title: "Analysis of own data"
+author: "Kristine"
+date: "14/4/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+pacman::p_load(tidyverse, mousetrap)
+```
+
+```{r}
+
+#FIRST PART 
+data <- read_csv("data/subject-1.csv")
+
+data1 <- read_csv("data/subject-23.csv")
+
+data2 <- read_csv("data/subject-678.csv")
+
+data3 <- read_csv("data/subject-47806.csv")
+
+data4 <- read_csv("data/subject-54321.csv")
+
+data_mt <- mt_import_mousetrap(data3)
+
+#Making it onesided
+nt_data_mt1 <- mt_remap_symmetric(data_mt)
+
+#Putting color for trail_type
+mt_plot(nt_data_mt1, color = "prime_congruency")
+
+#Making end position align 
+data_align <- mt_align(nt_data_mt1, align_end = TRUE)
+
+alaign_plot <- mt_plot(data_align, color = "prime_congruency")
+alaign_plot
+plot <- mt_plot(nt_data_mt1)
+plot
+time_xpos <- mt_plot(nt_data_mt1, x = "timestamps", y = "xpos")
+time_xpos
+exl <- mt_exclude_initiation(nt_data_mt1)
+
+time_xpos_exl <- mt_plot(exl, x = "timestamps", y = "xpos")
+time_xpos_exl
+exl_plot <- mt_plot(exl)
+
+#ABsolutely nothing 
+exl_plot
+
+time_xpos
+
+alaign_plot
+plot
+```
+
+
+
+```{r}
+#SECOND PART 
+
+normalize_data <- mt_time_normalize(exl)
+#It smoother det bare lidt ud 
+norm_plot <- mt_plot(normalize_data, use = "tn_trajectories", x = "timestamps", y = "xpos")
+norm_plot
+time_xpos_exl
+
+#
+agrr_data <- mt_aggregate(data_measures)
+mt_plot(agrr_data)
+mt_plot_aggregate(normalize_data, use = "tn_trajectories", color = "prime_congruency")
+
+data_measures <- mt_measures(normalize_data)
+
+?mt_measures
+
+mt_plot_aggregate()
+
+?mt_plot_aggregate
+```
